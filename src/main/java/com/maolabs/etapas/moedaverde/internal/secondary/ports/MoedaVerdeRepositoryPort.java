@@ -3,7 +3,7 @@ package com.maolabs.etapas.moedaverde.internal.secondary.ports;
 import com.maolabs.etapas.moedaverde.internal.application.MoedaVerde;
 
 public interface MoedaVerdeRepositoryPort {
-    MoedaVerde buscarPorClienteId(Long clienteId);
+    void existsByClienteId(Long clienteId, Long pedidoId);
 
-    void atualizar(MoedaVerde programaPontosA);
+    void cadastrar(MoedaVerde programaPontosA);
 }

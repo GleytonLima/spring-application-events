@@ -1,0 +1,21 @@
+<div [formGroup]="formGroup">
+    <label>
+        Cliente ID:
+        <input type="text" formControlName="clienteId" />
+    </label>
+
+    <label>
+        Moedas Verdes:
+        <input type="text" formControlName="moedasAzuis" />
+    </label>
+
+    <label>
+        moedas Azuis:
+        <input type="text" formControlName="moedasVerdes" />
+    </label>
+    <button (click)="enviarPedido()">Enviar</button>
+    <button (click)="sendMessage()">Teste</button>
+</div>
+<div *ngFor="let mensagem of mensagens">
+    {{ mensagem }}
+</div>

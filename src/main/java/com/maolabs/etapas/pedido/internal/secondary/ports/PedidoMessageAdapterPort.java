@@ -1,20 +1,28 @@
 package com.maolabs.etapas.pedido.internal.secondary.ports;
 
-import com.maolabs.etapas.pedido.internal.application.mensagens.commands.PedidoCancelarCommand;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.*;
+import com.maolabs.etapas.moedaazul.internal.application.mensagens.events.MoedaAzulConsumidaEvent;
+import com.maolabs.etapas.moedaazul.internal.application.mensagens.events.MoedaAzulFalhaConsumoEvent;
+import com.maolabs.etapas.moedaverde.internal.application.mensagens.events.MoedaVerdeConsumidaEvent;
+import com.maolabs.etapas.moedaverde.internal.application.mensagens.events.MoedaVerdeFalhaConsumoEvent;
+import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoCriadoEvent;
+import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoFalhaPersitirEvent;
+import org.springframework.context.event.EventListener;
 
 public interface PedidoMessageAdapterPort {
+
     void publicarEventoPedidoCriado(PedidoCriadoEvent pedidoCriadoEvent);
 
     void publicarEventoFalhaPersitir(PedidoFalhaPersitirEvent pedidoFalhaPersitirEvent);
 
-    void consumirPedidoMoedaAzulConfirmadaEvent(PedidoMoedaAzulConfirmadaMessage pedidoMoedaAzulConfirmadaEvent);
+    @EventListener
+    void consumirPedidoMoedaAzulConfirmadaEvent(MoedaAzulConsumidaEvent moedaAzulConsumidaEvent);
 
-    void consumirPedidoMoedaVerdeConfirmadaEvent(PedidoMoedaVerdeConfirmadaMessage pedidoMoedaVerdeConfirmadaEvent);
+    @EventListener
+    void consumirPedidoMoedaVerdeConfirmadaEvent(MoedaVerdeConsumidaEvent moedaVerdeConsumidaEvent);
 
-    void consumirPedidoMoedaAzulAtualizadaEvent(PedidoMoedaAzulAtualizadaMessage pedidoMoedaAzulAtualizadaEvent);
+    @EventListener
+    void handle(MoedaAzulFalhaConsumoEvent moedaAzulFalhaConsumoEvent);
 
-    void consumirPedidoMoedaVerdeAtualizadaEvent(PedidoMoedaVerdeAtualizadaMessage pedidoMoedaVerdeAtualizadaEvent);
-
-    void processarPedidoCancelarCommand(PedidoCancelarCommand pedidoCancelarCommand);
+    @EventListener
+    void handle(MoedaVerdeFalhaConsumoEvent moedaVerdeFalhaConsumoEvent);
 }

@@ -3,7 +3,7 @@ package com.maolabs.etapas.moedaazul.internal.secondary.ports;
 import com.maolabs.etapas.moedaazul.internal.application.MoedaAzul;
 
 public interface MoedaAzulRepositoryPort {
-    MoedaAzul buscarPorClienteId(Long clienteId);
+    void creditarSeNovoCliente(Long clienteId, Long pedidoId);
 
-    void atualizar(MoedaAzul moedaAzul);
+    void cadastrar(MoedaAzul moedaAzul);
 }

@@ -1,9 +1,7 @@
 package com.maolabs.etapas.pedido.internal.usecases.interfaces;
 
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaAzulAtualizadaMessage;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaVerdeAtualizadaMessage;
+import java.util.UUID;
 
 public interface PedidoFinalizarUseCase {
-    void finalizar(PedidoMoedaAzulAtualizadaMessage pedidoMoedaAzulAtualizadaEvent);
-    void finalizar(PedidoMoedaVerdeAtualizadaMessage pedidoMoedaVerdeAtualizadaEvent);
+    void finalizar(Long pedidoId, UUID correlationId);
 }

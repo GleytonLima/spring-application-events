@@ -3,5 +3,5 @@ package com.maolabs.etapas.moedaazul.external.secondary.adapters.persistencia;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MoedaAzulRepository extends JpaRepository<MoedaAzulEntity, Long> {
-    MoedaAzulEntity findByClienteId(Long clienteId);
+    boolean existsByClienteId(Long clienteId);
 }

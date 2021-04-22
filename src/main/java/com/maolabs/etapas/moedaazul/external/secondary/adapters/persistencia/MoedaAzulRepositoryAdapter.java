@@ -1,9 +1,12 @@
 package com.maolabs.etapas.moedaazul.external.secondary.adapters.persistencia;
 
 import com.maolabs.etapas.moedaazul.internal.application.MoedaAzul;
+import com.maolabs.etapas.moedaazul.internal.application.MoedaAzulOperacaoTipo;
 import com.maolabs.etapas.moedaazul.internal.secondary.ports.MoedaAzulRepositoryPort;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -11,19 +14,17 @@ public class MoedaAzulRepositoryAdapter implements MoedaAzulRepositoryPort {
     private MoedaAzulRepository moedaAzulRepository;
 
     @Override
-    public MoedaAzul buscarPorClienteId(Long clienteId) {
-        final MoedaAzulEntity byClienteId = moedaAzulRepository.findByClienteId(clienteId);
-        if (byClienteId == null) {
-            var programaA = new MoedaAzul(clienteId, 100L);
+    public void creditarSeNovoCliente(Long clienteId, Long pedidoId) {
+        var existsByClienteId = moedaAzulRepository.existsByClienteId(clienteId);
+        if (!existsByClienteId) {
+            var programaA = new MoedaAzul(clienteId, pedidoId, 100L, UUID.randomUUID(), MoedaAzulOperacaoTipo.CREDITO);
             var programaAEntity = new MoedaAzulEntity(programaA);
-            final MoedaAzulEntity save = moedaAzulRepository.save(programaAEntity);
-            return save.toModel();
+            moedaAzulRepository.save(programaAEntity);
         }
-        return byClienteId.toModel();
     }
 
     @Override
-    public void atualizar(MoedaAzul moedaAzul) {
+    public void cadastrar(MoedaAzul moedaAzul) {
         moedaAzulRepository.save(new MoedaAzulEntity(moedaAzul));
     }
 }

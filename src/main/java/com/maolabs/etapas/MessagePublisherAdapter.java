@@ -17,13 +17,13 @@ public class MessagePublisherAdapter implements MessagePublisherPort {
 
     @Override
     public void publishMessage(IMessage event) {
-        sendMessage(event);
         applicationEventPublisher.publishEvent(event);
+        sendMessage(event);
     }
 
     public void sendMessage(IMessage o) {
         final String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
-        simpMessagingTemplate.convertAndSend("/topic/messages",
+        simpMessagingTemplate.convertAndSend("/pedido/eventos",
                 new OutputMessage(o.getClass().getSimpleName(), o.getCorrelationId().toString(), time));
     }
 }

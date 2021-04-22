@@ -10,7 +10,7 @@ public interface PedidoRepositoryPort {
 
     void atualizarMoedaVerdeOperacaoId(Pedido pedido);
 
-    void atualizarStatus(PedidoStatus pedido, Long id);
+    void atualizarStatus(PedidoStatus pedido, Long id, String observacao);
 
     Pedido buscarPorId(Long id);
 }

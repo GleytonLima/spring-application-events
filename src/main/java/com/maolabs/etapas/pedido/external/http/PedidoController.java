@@ -1,7 +1,7 @@
 package com.maolabs.etapas.pedido.external.http;
 
 import com.maolabs.etapas.pedido.external.http.dto.input.PedidoInput;
-import com.maolabs.etapas.pedido.internal.usecases.interfaces.CriarPedidoUseCase;
+import com.maolabs.etapas.pedido.internal.usecases.interfaces.PedidoCriarUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -17,11 +17,12 @@ import java.util.UUID;
 @CrossOrigin(maxAge = 3600)
 public class PedidoController {
 
-    private final CriarPedidoUseCase criarPedidoUseCase;
+    private final PedidoCriarUseCase pedidoCriarUseCase;
 
     @PostMapping("/pedidos")
     ResponseEntity criarPedido(@RequestBody PedidoInput pedido) {
-        criarPedidoUseCase.criarPedido(pedido.build(), UUID.randomUUID());
-        return ResponseEntity.ok().build();
+        var uuidPedido = UUID.randomUUID();
+        pedidoCriarUseCase.criarPedido(pedido.build(), uuidPedido);
+        return ResponseEntity.ok(uuidPedido);
     }
 }

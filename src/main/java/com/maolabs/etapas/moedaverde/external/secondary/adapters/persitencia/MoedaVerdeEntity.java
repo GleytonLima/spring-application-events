@@ -1,12 +1,12 @@
 package com.maolabs.etapas.moedaverde.external.secondary.adapters.persitencia;
 
 import com.maolabs.etapas.moedaverde.internal.application.MoedaVerde;
+import com.maolabs.etapas.moedaverde.internal.application.MoedaVerdeOperacaoTipo;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -16,16 +16,23 @@ public class MoedaVerdeEntity {
     @GeneratedValue
     private Long id;
     private Long clienteId;
-    private Long numeroPontos;
+    private Long pedidoId;
+    private Long quantidade;
+    private UUID uuid;
+    @Enumerated(EnumType.STRING)
+    private MoedaVerdeOperacaoTipo operacaoTipo;
 
     public MoedaVerdeEntity(MoedaVerde moedaVerde) {
         this.id = moedaVerde.getId();
         this.clienteId = moedaVerde.getClienteId();
-        this.numeroPontos = moedaVerde.getSaldo();
+        this.pedidoId = moedaVerde.getPedidoId();
+        this.quantidade = moedaVerde.getQuantidade();
+        this.uuid = moedaVerde.getUuid();
+        this.operacaoTipo = moedaVerde.getOperacaoTipo();
     }
 
     public MoedaVerde toModel() {
-        var programaPontosB = new MoedaVerde(clienteId, numeroPontos);
+        var programaPontosB = new MoedaVerde(clienteId, pedidoId, quantidade, uuid, operacaoTipo);
         programaPontosB.definirID(this.id);
         return programaPontosB;
     }

@@ -1,9 +1,9 @@
 package com.maolabs.etapas.pedido.internal.usecases;
 
 import com.maolabs.etapas.MessagePublisherPort;
+import com.maolabs.etapas.moedaazul.internal.application.mensagens.events.MoedaAzulConsumidaEvent;
 import com.maolabs.etapas.pedido.internal.application.Pedido;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaAzulAtualizadaMessage;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaAzulConfirmadaMessage;
+import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaAzulConsumoRegistradoEvent;
 import com.maolabs.etapas.pedido.internal.secondary.ports.PedidoRepositoryPort;
 import com.maolabs.etapas.pedido.internal.usecases.interfaces.PedidoDefinirOperacaoMoedaAzulUseCase;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +17,15 @@ public class PedidoDefinirOperacaoMoedaAzulUseCaseImpl implements PedidoDefinirO
     private final PedidoRepositoryPort pedidoRepositoryPort;
     private final MessagePublisherPort messagePublisherPort;
 
-    public void definiridOperacaoMoedaAzul(PedidoMoedaAzulConfirmadaMessage pedidoMoedaAzulConfirmadaEvent) {
-        final Pedido pedido = pedidoRepositoryPort.buscarPorId(pedidoMoedaAzulConfirmadaEvent.getPedidoId());
-        pedido.definirMoedaAzulOperacao(pedidoMoedaAzulConfirmadaEvent.getIdOperacao());
+    public void definiridOperacaoMoedaAzul(MoedaAzulConsumidaEvent moedaAzulConsumidaEvent) {
+        final Pedido pedido = pedidoRepositoryPort.buscarPorId(moedaAzulConsumidaEvent.getPedidoId());
+        pedido.definirMoedaAzulOperacao(moedaAzulConsumidaEvent.getIdOperacao());
         pedidoRepositoryPort.atualizarMoedaAzulOperacaoId(pedido);
-        messagePublisherPort.publishMessage(new PedidoMoedaAzulAtualizadaMessage(pedidoMoedaAzulConfirmadaEvent.getCorrelationId(), pedido.getId()));
+        messagePublisherPort.publishMessage(new PedidoMoedaAzulConsumoRegistradoEvent(
+                moedaAzulConsumidaEvent.getCorrelationId(),
+                pedido.getId(),
+                pedido.getClienteId(),
+                pedido.getMoedasVerdes()
+        ));
     }
 }

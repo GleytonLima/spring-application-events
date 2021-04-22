@@ -5,7 +5,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.annotations.Type;
 
 import java.util.UUID;
 
@@ -21,6 +20,7 @@ public class Pedido {
     private UUID moedaAzulOperacaoId;
     private UUID moedaVerdeOperacaoId;
     private PedidoStatus status;
+    private String observacao;
 
     public void definirID(Long id) {
         assert this.id == null;
@@ -62,5 +62,13 @@ public class Pedido {
     public void definirMoedaVerdeOperacao(UUID uuid) {
         assert this.moedaVerdeOperacaoId == null;
         this.moedaVerdeOperacaoId = uuid;
+    }
+
+    public boolean moedasAzuisConsumidas() {
+        return getMoedaAzulOperacaoId() != null;
+    }
+
+    public boolean moedasVerdesConsumidas() {
+        return getMoedaVerdeOperacaoId() != null;
     }
 }

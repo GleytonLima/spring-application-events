@@ -1,7 +1,7 @@
 package com.maolabs.etapas.pedido.internal.usecases.interfaces;
 
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaAzulConfirmadaMessage;
+import com.maolabs.etapas.moedaazul.internal.application.mensagens.events.MoedaAzulConsumidaEvent;
 
 public interface PedidoDefinirOperacaoMoedaAzulUseCase {
-    void definiridOperacaoMoedaAzul(PedidoMoedaAzulConfirmadaMessage pedidoMoedaAzulConfirmadaEvent);
+    void definiridOperacaoMoedaAzul(MoedaAzulConsumidaEvent moedaAzulConsumidaEvent);
 }

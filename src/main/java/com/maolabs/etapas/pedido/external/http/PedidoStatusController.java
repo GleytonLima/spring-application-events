@@ -12,17 +12,15 @@ import java.util.Date;
 
 @Controller
 public class PedidoStatusController {
-
     @GetMapping("/")
     public String home() {
         return "index";
     }
 
-    @MessageMapping("/chat")
-    @SendTo("/topic/messages")
-    public OutputMessage send(Message message) throws Exception {
-        String time = new SimpleDateFormat("HH:mm").format(new Date());
+    @MessageMapping("/message-mapping")
+    @SendTo("/pedido/eventos")
+    public OutputMessage send(Message message) {
+        String time = new SimpleDateFormat("HH:mm:ss").format(new Date());
         return new OutputMessage(message.getFrom(), message.getText(), time);
     }
-
 }

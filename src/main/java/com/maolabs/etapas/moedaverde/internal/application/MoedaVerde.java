@@ -1,28 +1,24 @@
 package com.maolabs.etapas.moedaverde.internal.application;
 
-import com.maolabs.etapas.moedaverde.internal.application.mensagens.exceptions.MoedaVerdeInsuficienteException;
 import lombok.Getter;
+
+import java.util.UUID;
 
 @Getter
 public class MoedaVerde {
     private Long id;
     private Long clienteId;
-    private Long saldo;
+    private Long pedidoId;
+    private Long quantidade;
+    private UUID uuid;
+    private MoedaVerdeOperacaoTipo operacaoTipo;
 
-    public MoedaVerde(Long clienteId, Long saldo) {
+    public MoedaVerde(Long clienteId, Long pedidoId, Long quantidade, UUID uuid, MoedaVerdeOperacaoTipo operacaoTipo) {
         this.clienteId = clienteId;
-        this.saldo = saldo;
-    }
-
-    public void adicionarPontos(Long pontos) {
-        saldo = saldo + pontos;
-    }
-
-    public void consumirPontos(Long pontos) throws MoedaVerdeInsuficienteException {
-        if (saldo - pontos < 0) {
-            throw new MoedaVerdeInsuficienteException("Saldo de pontos B insuficiente");
-        }
-        saldo = saldo - pontos;
+        this.pedidoId = pedidoId;
+        this.quantidade = quantidade;
+        this.uuid = uuid;
+        this.operacaoTipo = operacaoTipo;
     }
 
     public void definirID(Long id) {

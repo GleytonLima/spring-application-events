@@ -1,9 +1,9 @@
 package com.maolabs.etapas.pedido.internal.usecases;
 
 import com.maolabs.etapas.MessagePublisherPort;
+import com.maolabs.etapas.moedaverde.internal.application.mensagens.events.MoedaVerdeConsumidaEvent;
 import com.maolabs.etapas.pedido.internal.application.Pedido;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaVerdeAtualizadaMessage;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaVerdeConfirmadaMessage;
+import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoMoedaVerdeConsumoRegistradoEvent;
 import com.maolabs.etapas.pedido.internal.secondary.ports.PedidoRepositoryPort;
 import com.maolabs.etapas.pedido.internal.usecases.interfaces.PedidoDefinirOperacaoMoedaVerdeUseCase;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ public class PedidoDefinirOperacaoMoedaVerdeUseCaseImpl implements PedidoDefinir
     private final MessagePublisherPort messagePublisherPort;
 
     @Override
-    public void definiridOperacaoMoedaVerde(PedidoMoedaVerdeConfirmadaMessage pedidoMoedaVerdeConfirmadaEvent) {
+    public void definiridOperacaoMoedaVerde(MoedaVerdeConsumidaEvent pedidoMoedaVerdeConfirmadaEvent) {
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
@@ -29,6 +29,6 @@ public class PedidoDefinirOperacaoMoedaVerdeUseCaseImpl implements PedidoDefinir
         final Pedido pedido = pedidoRepositoryPort.buscarPorId(pedidoMoedaVerdeConfirmadaEvent.getPedidoId());
         pedido.definirMoedaVerdeOperacao(pedidoMoedaVerdeConfirmadaEvent.getIdOperacao());
         pedidoRepositoryPort.atualizarMoedaVerdeOperacaoId(pedido);
-        messagePublisherPort.publishMessage(new PedidoMoedaVerdeAtualizadaMessage(pedidoMoedaVerdeConfirmadaEvent.getCorrelationId(), pedido.getId()));
+        messagePublisherPort.publishMessage(new PedidoMoedaVerdeConsumoRegistradoEvent(pedidoMoedaVerdeConfirmadaEvent.getCorrelationId(), pedido.getId()));
     }
 }

@@ -4,7 +4,6 @@ import com.maolabs.etapas.MessagePublisherPort;
 import com.maolabs.etapas.pedido.internal.application.Pedido;
 import com.maolabs.etapas.pedido.internal.application.mensagens.commands.PedidoCancelarCommand;
 import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoCanceladoEvent;
-import com.maolabs.etapas.pedido.internal.application.mensagens.events.PedidoFinalizadoMessage;
 import com.maolabs.etapas.pedido.internal.secondary.ports.PedidoRepositoryPort;
 import com.maolabs.etapas.pedido.internal.usecases.interfaces.PedidoCancelarUseCase;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +22,7 @@ public class PedidoCancelarUseCaseImpl implements PedidoCancelarUseCase {
     public void cancelar(PedidoCancelarCommand pedidoCancelarCommand) {
         final Pedido pedido = pedidoRepositoryPort.buscarPorId(pedidoCancelarCommand.getPedidoId());
         pedido.cancelar();
-        pedidoRepositoryPort.atualizarStatus(pedido.getStatus(), pedidoCancelarCommand.getPedidoId());
+        pedidoRepositoryPort.atualizarStatus(pedido.getStatus(), pedidoCancelarCommand.getPedidoId(), pedidoCancelarCommand.getMotivo());
         messagePublisherPort.publishMessage(new PedidoCanceladoEvent(pedidoCancelarCommand.getCorrelationId(), pedido));
     }
 }
